@@ -36,13 +36,26 @@ router.patch("/:id", (req, res) => {
         res.json({ error: 'incorrect patch details' })
     }
 
-    for(const body in req.body){
+    for (const body in req.body) {
         existingMovie[body] = req.body[body]
     }
 
     res.json({ film: existingMovie })
 })
 
+router.delete("/:id", (req, res) => {
+    const filmId = parseInt(req.params.id)
+    const findFilm = data.films.find(x => x.id === filmId)
+
+    if (!findFilm) {
+        res.json(404)
+        res.json({ error: "film doesnt exist" })
+        return
+    }
+
+    data.films = data.films.filter(x => x !== findFilm)
+    res.json({ film: findFilm })
+})
 
 /*router.put("/:id", (req, res) => {
     const userId = parseInt(req.params.id)
